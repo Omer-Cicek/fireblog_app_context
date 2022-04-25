@@ -23,15 +23,18 @@ export default function MenuAppBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, textDecoration: 'none' }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ bgcolor: '#6FDFDF', height: '65px' }}>
         <Toolbar>
           <Typography
             variant="h5"
             component="div"
+            underline="none"
             sx={{ flexGrow: 1, color: '#000' }}
           >
-            <Link to="/">FireBlog App</Link>
+            <Link style={{ color: '#000' }} to="/">
+              FireBlog App
+            </Link>
           </Typography>
           <div>
             <IconButton
