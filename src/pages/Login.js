@@ -11,6 +11,9 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import styled from 'styled-components';
+import { signIn } from '../auth/firebase';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const imgUrl = 'https://picsum.photos/800/800';
 
@@ -31,6 +34,15 @@ const Content = styled.div`
 `;
 
 const SignIn = () => {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e) => {
+    signIn(email, password, navigate);
+    e.preventDefault();
+  };
   return (
     <Content>
       <RecommendItem />
@@ -51,7 +63,12 @@ const SignIn = () => {
             <Typography component="h1" variant="h5">
               Login
             </Typography>
-            <Box component="form" noValidate sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
               <TextField
                 margin="normal"
                 required
@@ -61,6 +78,8 @@ const SignIn = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
               <TextField
                 margin="normal"
@@ -71,6 +90,8 @@ const SignIn = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
               <Button
                 type="submit"

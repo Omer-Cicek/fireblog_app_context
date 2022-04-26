@@ -11,6 +11,9 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import styled from 'styled-components';
+import { useState } from 'react';
+import { createUser } from '../auth/firebase';
+import { useNavigate } from 'react-router-dom';
 
 const imgUrl = 'https://picsum.photos/800/800';
 
@@ -31,6 +34,15 @@ const Content = styled.div`
 `;
 
 const Register = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createUser(emailUser, passwordUser, navigate);
+  };
+  const [emailUser, setEmailUser] = useState('');
+  const [passwordUser, setPasswordUser] = useState('');
+
   return (
     <Content>
       <RecommendItem />
@@ -51,7 +63,12 @@ const Register = () => {
             <Typography component="h1" variant="h5">
               Register
             </Typography>
-            <Box component="form" noValidate sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
               <TextField
                 margin="normal"
                 required
@@ -60,6 +77,8 @@ const Register = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={(e) => setEmailUser(e.target.value)}
+                value={emailUser}
                 autoFocus
               />
               <TextField
@@ -70,6 +89,8 @@ const Register = () => {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={(e) => setPasswordUser(e.target.value)}
+                value={passwordUser}
                 autoComplete="current-password"
               />
               <Button
@@ -82,7 +103,6 @@ const Register = () => {
                 Register
               </Button>
               <Button
-                type="submit"
                 fullWidth
                 variant="contained"
                 color="secondary"
@@ -109,7 +129,6 @@ const Register = () => {
               </Grid>
             </Box>
           </Box>
-          <p>{`© All rights reserved.`}</p>
         </Container>
       </div>
     </Content>
