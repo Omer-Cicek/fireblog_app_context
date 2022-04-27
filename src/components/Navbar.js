@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import {
   Menu,
@@ -9,8 +9,9 @@ import {
   Box,
   AppBar,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logOut } from '../auth/firebase';
+import { AuthContext } from '../contexts/AuthContext';
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -22,8 +23,9 @@ export default function MenuAppBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  let currentUser = true;
+  const navigate = useNavigate();
+  // let currentUser = true;
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -66,7 +68,7 @@ export default function MenuAppBar() {
               onClose={handleClose}
               style={{ marginTop: '48px' }}
             >
-              {currentUser ? (
+              {!currentUser ? (
                 <div>
                   <MenuItem onClick={handleClose}>
                     <Link to="/login">Login</Link>
@@ -85,7 +87,14 @@ export default function MenuAppBar() {
                   </MenuItem>
                   <MenuItem onClick={handleClose}>
                     {/* <Link to="/about">Log Out</Link> */}
-                    <p onClick={() => logOut()}>Log Out</p>
+                    <p
+                      onClick={() => {
+                        logOut();
+                        navigate('/login');
+                      }}
+                    >
+                      Log Out
+                    </p>
                   </MenuItem>
                 </div>
               )}

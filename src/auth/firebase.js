@@ -61,7 +61,7 @@ export const logOut = () => {
   console.log('asdas');
 };
 
-export const userObserver = () => {
+export const userObserver = (setCurrentUser) => {
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
       setCurrentUser(currentUser);
