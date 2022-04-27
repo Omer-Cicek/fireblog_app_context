@@ -6,6 +6,8 @@ import {
   signOut,
   updateProfile,
   onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
 
 //config items
@@ -69,4 +71,18 @@ export const userObserver = (setCurrentUser) => {
       setCurrentUser(false);
     }
   });
+};
+
+export const signUpProviderGoogle = (navigate) => {
+  const provider = new GoogleAuthProvider();
+
+  const auth = getAuth();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      navigate('/');
+      console.log(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };

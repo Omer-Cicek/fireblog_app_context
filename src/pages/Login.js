@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import styled from 'styled-components';
-import { signIn } from '../auth/firebase';
+import { signIn, signUpProviderGoogle } from '../auth/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -42,6 +42,10 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     signIn(email, password, navigate);
     e.preventDefault();
+  };
+
+  const handleLoginGoogle = () => {
+    signUpProviderGoogle(navigate);
   };
   return (
     <Content>
@@ -108,12 +112,13 @@ const SignIn = () => {
                 variant="contained"
                 color="secondary"
                 sx={{ mt: 3, mb: 1, backgroundColor: '#21b6ae' }}
+                onClick={handleLoginGoogle}
               >
                 with &nbsp; &nbsp;
                 <img
                   style={{ width: '110px' }}
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/155px-Google_2015_logo.svg.png"
-                  alt=""
+                  alt="google image"
                 />
               </Button>
               <Grid container>
