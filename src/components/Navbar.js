@@ -10,6 +10,7 @@ import {
   AppBar,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { logOut } from '../auth/firebase';
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -21,6 +22,8 @@ export default function MenuAppBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  let currentUser = true;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -63,15 +66,29 @@ export default function MenuAppBar() {
               onClose={handleClose}
               style={{ marginTop: '48px' }}
             >
-              <MenuItem onClick={handleClose}>
-                <Link to="/login">Login</Link>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Link to="/register">Register</Link>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Link to="/about">About</Link>
-              </MenuItem>
+              {currentUser ? (
+                <div>
+                  <MenuItem onClick={handleClose}>
+                    <Link to="/login">Login</Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <Link to="/register">Register</Link>
+                  </MenuItem>
+                </div>
+              ) : (
+                <div>
+                  <MenuItem onClick={handleClose}>
+                    <Link to="/about">About</Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <Link to="/newBlog">New</Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {/* <Link to="/about">Log Out</Link> */}
+                    <p onClick={() => logOut()}>Log Out</p>
+                  </MenuItem>
+                </div>
+              )}
             </Menu>
           </div>
         </Toolbar>

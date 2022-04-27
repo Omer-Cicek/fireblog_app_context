@@ -38,10 +38,14 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createUser(emailUser, passwordUser, navigate);
+    createUser(emailUser, passwordUser, navigate, displayName);
   };
   const [emailUser, setEmailUser] = useState('');
   const [passwordUser, setPasswordUser] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  const displayName = `${firstName} ${lastName}`;
 
   return (
     <Content>
@@ -69,6 +73,28 @@ const Register = () => {
               noValidate
               sx={{ mt: 1 }}
             >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="firstName"
+                label="First Name"
+                type="text"
+                id="firstName"
+                onChange={(e) => setFirstName(e.target.value)}
+                value={firstName}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="lastName"
+                label="Last Name"
+                type="text"
+                id="lastName"
+                onChange={(e) => setLastName(e.target.value)}
+                value={lastName}
+              />
               <TextField
                 margin="normal"
                 required

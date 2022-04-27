@@ -4,6 +4,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
+  onAuthStateChanged,
 } from 'firebase/auth';
 
 //config items
@@ -22,13 +24,17 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
-export const createUser = async (email, password, navigate) => {
+export const createUser = async (email, password, navigate, displayName) => {
   try {
     let userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
+    await updateProfile(auth.currentUser, {
+      displayName: displayName,
+    });
+    console.log(displayName);
     navigate('/');
     console.log(userCredential);
   } catch (error) {
@@ -52,4 +58,15 @@ export const signIn = async (email, password, navigate) => {
 
 export const logOut = () => {
   signOut(auth);
+  console.log('asdas');
+};
+
+export const userObserver = () => {
+  onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser) {
+      setCurrentUser(currentUser);
+    } else {
+      setCurrentUser(false);
+    }
+  });
 };
