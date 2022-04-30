@@ -10,6 +10,9 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 
+import { getDatabase, onValue, push, ref, set } from 'firebase/database';
+import { useEffect, useState } from 'react';
+
 //config items
 const firebaseConfig = {
   apiKey: 'AIzaSyBgZGQEgKg3iFCUDx1EPA4VAZM2yBYrEOQ',
@@ -36,9 +39,7 @@ export const createUser = async (email, password, navigate, displayName) => {
     await updateProfile(auth.currentUser, {
       displayName: displayName,
     });
-    console.log(displayName);
     navigate('/');
-    console.log(userCredential);
   } catch (error) {
     alert(error.message);
   }
@@ -60,13 +61,13 @@ export const signIn = async (email, password, navigate) => {
 
 export const logOut = () => {
   signOut(auth);
-  console.log('asdas');
 };
 
 export const userObserver = (setCurrentUser) => {
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
       setCurrentUser(currentUser);
+      console.log(currentUser.auth.currentUser.reloadUserInfo);
     } else {
       setCurrentUser(false);
     }
@@ -85,4 +86,48 @@ export const signUpProviderGoogle = (navigate) => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+///////////////////////////////////
+// ---------DATABASE----------
+///////////////////////////////////
+
+export const AddUser = (info) => {
+  const db = getDatabase();
+
+  const userRef = ref(db, 'baglanti');
+
+  const newUserRef = push(userRef);
+
+  set(newUserRef, {
+    title: info.title,
+    imageURL: info.imageURL,
+    content: info.content,
+    email: info.email,
+    photoURL: info.photoURL,
+  });
+};
+
+export const useFetch = () => {
+  const [isLoading, setIsLoading] = useState();
+  const [contactList, setContactList] = useState();
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const db = getDatabase();
+    const userRef = ref(db, 'baglanti');
+    console.log(db);
+
+    onValue(userRef, (snapshot) => {
+      const data = snapshot.val();
+      const blogArray = [];
+      for (let id in data) {
+        blogArray.push({ id, ...data[id] });
+      }
+      setContactList(blogArray);
+      setIsLoading(false);
+    });
+  }, []);
+  return { isLoading, contactList };
 };

@@ -7,7 +7,10 @@ import { CardActionArea, CardActions } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { styled } from '@mui/styles';
-import Box from '@mui/material/Box';
+import { useFetch } from '../auth/firebase';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { AuthContext } from '../contexts/AuthContext';
+import { useContext } from 'react';
 
 const Main = () => {
   const MyComponent = styled('div')({
@@ -17,27 +20,55 @@ const Main = () => {
     margin: '20px',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    textAlign: 'left',
   });
+  const MyUseremail = styled('div')({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+  });
+
+  const { isLoading, contactList } = useFetch();
+  console.log(contactList);
 
   return (
     <MyComponent>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => {
+      {contactList?.map((item, index) => {
         return (
-          <Card sx={{ maxWidth: 300 }} key={index}>
+          <Card sx={{ width: 300, padding: 0.8 }} key={index}>
+            <MyUseremail>
+              <img
+                src={item.photoURL}
+                alt="photoUser"
+                style={{
+                  width: 40,
+                  borderRadius: 50,
+                  margin: 10,
+                }}
+              />
+              <p>{item.email}</p>
+            </MyUseremail>
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="140"
-                image="http://www.opendart.com/uploads/opendart.com_reactdersleri_react.png"
-                alt="green iguana"
+                height="100"
+                image={item.imageURL}
+                alt="userImg"
+                style={{ width: '100%', objectFit: 'cover', height: '100%' }}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  style={{ backgroundColor: '#F8ECD1' }}
+                >
+                  {item.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
+                  {item.content}
                 </Typography>
               </CardContent>
             </CardActionArea>

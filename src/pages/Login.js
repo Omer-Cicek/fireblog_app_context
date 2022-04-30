@@ -118,7 +118,7 @@ const SignIn = () => {
                 <img
                   style={{ width: '110px' }}
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/155px-Google_2015_logo.svg.png"
-                  alt="google image"
+                  alt="google "
                 />
               </Button>
               <Grid container>

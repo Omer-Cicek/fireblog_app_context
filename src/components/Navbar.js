@@ -24,7 +24,6 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
   const navigate = useNavigate();
-  // let currentUser = true;
   const { currentUser } = useContext(AuthContext);
 
   return (
@@ -66,6 +65,7 @@ export default function MenuAppBar() {
               }}
               open={Boolean(anchorEl)}
               onClose={handleClose}
+              disableScrollLock={true}
               style={{ marginTop: '48px' }}
             >
               {!currentUser ? (
