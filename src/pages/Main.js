@@ -1,16 +1,17 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea, CardActions } from '@mui/material';
+import {
+  CardActionArea,
+  CardActions,
+  Typography,
+  CardMedia,
+  CardContent,
+  Card,
+} from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { styled } from '@mui/styles';
 import { useFetch } from '../auth/firebase';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { AuthContext } from '../contexts/AuthContext';
-import { useContext } from 'react';
+import loading from '../assets/loading.gif';
+import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
   const MyComponent = styled('div')({
@@ -30,14 +31,28 @@ const Main = () => {
     padding: 10,
   });
 
+  const navigate = useNavigate();
   const { isLoading, contactList } = useFetch();
-  console.log(contactList);
+
+  const handleDetails = (id) => {
+    navigate('/details/' + id);
+  };
 
   return (
     <MyComponent>
+      {isLoading && (
+        <img src={loading} alt="loading" style={{ width: '30%' }} />
+      )}
       {contactList?.map((item, index) => {
+        {
+          console.log(item.id);
+        }
         return (
-          <Card sx={{ width: 300, padding: 0.8 }} key={index}>
+          <Card
+            sx={{ width: 360, padding: 0.8 }}
+            key={index}
+            onClick={(e) => handleDetails(item.id)}
+          >
             <MyUseremail>
               <img
                 src={item.photoURL}

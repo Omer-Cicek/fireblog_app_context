@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { Button, styled } from '@mui/material';
 import { TextField, Box } from '@mui/material';
 import { AddUser } from '../auth/firebase';
-import { useFetch } from '../auth/firebase';
 import { AuthContext } from '../contexts/AuthContext';
 
 const NewBlogStyledBox = styled(Box)`
@@ -27,8 +26,6 @@ const NewBlogStyledBox = styled(Box)`
   }
 `;
 
-// console.log(useFetch());
-
 const NewBlog = () => {
   const initialValues = {
     title: '',
@@ -41,11 +38,12 @@ const NewBlog = () => {
   const [info, setInfo] = useState(initialValues);
 
   const { currentUser } = useContext(AuthContext);
-  const { email, photoURL } = currentUser;
+  const { email, photoURL, uid } = currentUser;
+  console.log(uid);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInfo({ ...info, [name]: value, email, photoURL });
+    setInfo({ ...info, [name]: value, email, photoURL, id: uid });
   };
 
   const handleFormSubmit = (e) => {

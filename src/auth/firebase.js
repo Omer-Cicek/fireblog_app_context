@@ -67,7 +67,6 @@ export const userObserver = (setCurrentUser) => {
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
       setCurrentUser(currentUser);
-      console.log(currentUser.auth.currentUser.reloadUserInfo);
     } else {
       setCurrentUser(false);
     }
@@ -105,6 +104,7 @@ export const AddUser = (info) => {
     content: info.content,
     email: info.email,
     photoURL: info.photoURL,
+    id: info.id,
   });
 };
 
@@ -117,7 +117,6 @@ export const useFetch = () => {
 
     const db = getDatabase();
     const userRef = ref(db, 'baglanti');
-    console.log(db);
 
     onValue(userRef, (snapshot) => {
       const data = snapshot.val();
