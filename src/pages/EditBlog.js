@@ -1,8 +1,7 @@
-import { useContext, useState } from 'react';
-import { Button, styled } from '@mui/material';
-import { TextField, Box } from '@mui/material';
-import { AddUser } from '../auth/firebase';
-import { AuthContext } from '../contexts/AuthContext';
+import styled from '@emotion/styled';
+import { Button, TextField } from '@mui/material';
+import { Box } from '@mui/system';
+import React from 'react';
 
 const NewBlogStyledBox = styled(Box)`
   width: 100vw;
@@ -26,39 +25,15 @@ const NewBlogStyledBox = styled(Box)`
   }
 `;
 
-const NewBlog = () => {
-  const initialValues = {
-    title: '',
-    imageURL: '',
-    content: '',
-    email: '',
-    photoURL: '',
-  };
-
-  const [info, setInfo] = useState(initialValues);
-
-  const { currentUser } = useContext(AuthContext);
-  const { email, photoURL } = currentUser;
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInfo({ ...info, [name]: value, email, photoURL });
-    console.log(info);
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    AddUser(info);
-  };
-
+const EditBlog = () => {
   return (
-    <form onSubmit={handleFormSubmit}>
+    <div>
       <NewBlogStyledBox>
         <img
-          src="https://webnedio.com/wp-content/uploads/2022/02/blooog.jpg"
+          src="https://media.istockphoto.com/vectors/update-system-icon-concept-of-upgrade-application-progress-icon-for-vector-id1188633596?b=1&k=20&m=1188633596&s=612x612&w=0&h=Vl3aIgNrhy37OJEa40AKcvgQJhYCaL7ck3vzWUTa068="
           alt="blog"
         />
-        <h1>New Blog</h1>
+        <h1>Edit Blog</h1>
 
         <TextField
           margin="normal"
@@ -67,7 +42,6 @@ const NewBlog = () => {
           id="title"
           label="Title"
           name="title"
-          onChange={handleChange}
         />
         <TextField
           margin="normal"
@@ -76,7 +50,6 @@ const NewBlog = () => {
           id="imgUrl"
           label="Image URL"
           name="imageURL"
-          onChange={handleChange}
         />
         <TextField
           margin="normal"
@@ -87,14 +60,13 @@ const NewBlog = () => {
           name="content"
           rows={4}
           multiline
-          onChange={handleChange}
         />
         <Button variant="contained" color="success" type="submit">
           Submit
         </Button>
       </NewBlogStyledBox>
-    </form>
+    </div>
   );
 };
 
-export default NewBlog;
+export default EditBlog;

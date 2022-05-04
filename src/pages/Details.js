@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useFetch } from '../auth/firebase';
 import {
   styled,
@@ -16,6 +16,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { DeleteUser } from '../auth/firebase';
 
 const DetailsStyledBox = styled(Box)`
   // width: 50vw;
@@ -41,6 +42,15 @@ const AvatarLabel = styled(Box)`
 const Details = () => {
   const { id } = useParams();
   const { contactList } = useFetch();
+  const navigate = useNavigate();
+
+  const handleDelete = (id) => {
+    DeleteUser(id);
+    navigate('/');
+  };
+  const handleEdit = (id) => {
+    navigate('/editBlog');
+  };
 
   return (
     <DetailsStyledBox>
@@ -82,10 +92,18 @@ const Details = () => {
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />
                 </IconButton>
-                <Button color="secondary" startIcon={<UpdateIcon />}>
+                <Button
+                  color="secondary"
+                  startIcon={<UpdateIcon />}
+                  onClick={() => handleEdit(id)}
+                >
                   UPDATE
                 </Button>
-                <Button color="error" startIcon={<DeleteIcon />}>
+                <Button
+                  color="error"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => handleDelete(id)}
+                >
                   DELETE
                 </Button>
               </CardActions>

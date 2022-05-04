@@ -10,7 +10,14 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 
-import { getDatabase, onValue, push, ref, set } from 'firebase/database';
+import {
+  getDatabase,
+  onValue,
+  push,
+  ref,
+  remove,
+  set,
+} from 'firebase/database';
 import { useEffect, useState } from 'react';
 
 //config items
@@ -104,7 +111,6 @@ export const AddUser = (info) => {
     content: info.content,
     email: info.email,
     photoURL: info.photoURL,
-    id: info.id,
   });
 };
 
@@ -122,11 +128,17 @@ export const useFetch = () => {
       const data = snapshot.val();
       const blogArray = [];
       for (let id in data) {
-        blogArray.push({ id, ...data[id] });
+        blogArray.push({ id: id, ...data[id] });
       }
       setContactList(blogArray);
       setIsLoading(false);
     });
   }, []);
   return { isLoading, contactList };
+};
+
+export const DeleteUser = (id) => {
+  const db = getDatabase();
+  // const userRef = ref(db, 'baglanti');
+  remove(ref(db, 'baglanti/' + id));
 };

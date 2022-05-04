@@ -34,8 +34,9 @@ const Main = () => {
   const navigate = useNavigate();
   const { isLoading, contactList } = useFetch();
 
-  const handleDetails = (id) => {
-    navigate('/details/' + id);
+  const handleDetails = (item) => {
+    navigate('/details/' + item.id);
+    console.log(item);
   };
 
   return (
@@ -51,7 +52,7 @@ const Main = () => {
           <Card
             sx={{ width: 360, padding: 0.8 }}
             key={index}
-            onClick={(e) => handleDetails(item.id)}
+            onClick={() => handleDetails(item)}
           >
             <MyUseremail>
               <img
