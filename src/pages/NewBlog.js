@@ -33,6 +33,7 @@ const NewBlog = () => {
     content: '',
     email: '',
     photoURL: '',
+    date: '',
   };
 
   const [info, setInfo] = useState(initialValues);
@@ -42,13 +43,15 @@ const NewBlog = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInfo({ ...info, [name]: value, email, photoURL });
+    setInfo({ ...info, [name]: value, email, photoURL, date: Date() });
     console.log(info);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    // console.log(Date());
     AddUser(info);
+    setInfo(initialValues);
   };
 
   return (
@@ -68,6 +71,7 @@ const NewBlog = () => {
           label="Title"
           name="title"
           onChange={handleChange}
+          value={info.title}
         />
         <TextField
           margin="normal"
@@ -77,6 +81,7 @@ const NewBlog = () => {
           label="Image URL"
           name="imageURL"
           onChange={handleChange}
+          value={info.imageURL}
         />
         <TextField
           margin="normal"
@@ -88,6 +93,7 @@ const NewBlog = () => {
           rows={4}
           multiline
           onChange={handleChange}
+          value={info.content}
         />
         <Button variant="contained" color="success" type="submit">
           Submit

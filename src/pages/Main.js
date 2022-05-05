@@ -1,13 +1,10 @@
 import {
   CardActionArea,
-  CardActions,
   Typography,
   CardMedia,
   CardContent,
   Card,
 } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { styled } from '@mui/styles';
 import { useFetch } from '../auth/firebase';
 import loading from '../assets/loading.gif';
@@ -33,9 +30,10 @@ const Main = () => {
 
   const navigate = useNavigate();
   const { isLoading, contactList } = useFetch();
+  console.log(contactList);
 
   const handleDetails = (item) => {
-    navigate('/details/' + item.id);
+    navigate('/details/' + item.id, { state: { item } });
     console.log(item);
   };
 
@@ -45,9 +43,6 @@ const Main = () => {
         <img src={loading} alt="loading" style={{ width: '30%' }} />
       )}
       {contactList?.map((item, index) => {
-        {
-          console.log(item.id);
-        }
         return (
           <Card
             sx={{ width: 360, padding: 0.8 }}
@@ -72,9 +67,19 @@ const Main = () => {
                 height="100"
                 image={item.imageURL}
                 alt="userImg"
-                style={{ width: '100%', objectFit: 'cover', height: '100%' }}
+                onError={(e) => {
+                  e.target.src =
+                    'http://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg';
+                }}
+                style={{
+                  width: '100%',
+                  objectFit: 'cover',
+                  height: '100%',
+                  minHeight: '360px',
+                }}
               />
               <CardContent>
+                <p>{item?.date}</p>
                 <Typography
                   gutterBottom
                   variant="h5"
@@ -88,10 +93,6 @@ const Main = () => {
                 </Typography>
               </CardContent>
             </CardActionArea>
-            <CardActions>
-              <FavoriteBorderIcon />
-              <ChatBubbleOutlineIcon />
-            </CardActions>
           </Card>
         );
       })}
