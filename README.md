@@ -20,8 +20,10 @@ In the project directory, you can run:
 
 Users should be able to:
 
-- View the optimal layout for the site depending on their device's screen size
-- See text with good effects while mouse hovered on image
+- View the blogs that other users write
+- See update and delete buttons if user owns the blog
+- Sign in with Google
+- See his own Google image and email address on his own blog
 
 ## Got feedback for me?
 
